@@ -9,6 +9,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.modelmapper.ModelMapper;
+
+import br.com.wepdev.microservicocrud.data.vo.ProdutoVO;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -39,5 +42,10 @@ public class Produto implements Serializable{
 	
 	@Column(name = "preco", nullable = false, length = 10)
 	private Double preco;
+	
+	
+	public static Produto converteProdutoVOParaProduto(ProdutoVO produtoVO) {
+		return new ModelMapper().map(produtoVO, Produto.class);
+	}
 
 }

@@ -42,4 +42,5 @@ public class ProdutoVO implements Serializable{
 		return new ModelMapper().map(produto, ProdutoVO.class);
 	}
 
+
 }
