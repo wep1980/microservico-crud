@@ -21,4 +21,9 @@ spring:
     username: root
     password: root
     
+crud:
+  rabbitmq:
+    exchange: crud.exchange
+    routingkey: crud.produto.routingkey
+    
           
