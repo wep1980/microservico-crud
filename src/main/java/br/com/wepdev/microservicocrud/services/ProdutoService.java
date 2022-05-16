@@ -10,23 +10,28 @@ import org.springframework.stereotype.Service;
 import br.com.wepdev.microservicocrud.data.vo.ProdutoVO;
 import br.com.wepdev.microservicocrud.entity.Produto;
 import br.com.wepdev.microservicocrud.exception.ResourceNotFoundException;
+import br.com.wepdev.microservicocrud.message.ProdutoSendMessage;
 import br.com.wepdev.microservicocrud.repository.ProdutoRepository;
 
 @Service
 public class ProdutoService {
 	
 	private final ProdutoRepository produtoRepository;
+	private final ProdutoSendMessage produtoSendMessage;
 
 	
 	@Autowired
-	public ProdutoService(ProdutoRepository produtoRepository) {
+	public ProdutoService(ProdutoRepository produtoRepository, ProdutoSendMessage produtoSendMessage) {
 		this.produtoRepository = produtoRepository;
+		this.produtoSendMessage = produtoSendMessage;
 	}
 	
 	
 	public ProdutoVO create(ProdutoVO produtoVO) {
 		ProdutoVO proVoRetorno = ProdutoVO.converteProdutoParaProdutoVO(
 				produtoRepository.save(Produto.converteProdutoVOParaProduto(produtoVO)));
+		
+		produtoSendMessage.sendMessage(proVoRetorno); // Eviando o produto atraves da fila para atualizar o micrserviço de Pagamento
 		
 		return proVoRetorno;
 	}
